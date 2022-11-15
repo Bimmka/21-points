@@ -77,3 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb519d1972e2a146a4a5e1d81444920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelSettings: {fileID: 11400000, guid: c90a98e86a156104f8c0266a14a101ee, type: 2}
+  gamePanel: {fileID: 8999359901703311394, guid: 1befaa8fa91ccf84696f410ceee1bc63, type: 3}
+  gamePanelSettings: {fileID: 11400000, guid: ca15340eaf01e8740b83f38ca8d39b58, type: 2}
+  gameCell: {fileID: 7148035812920982999, guid: a0a25463414e55a469b6ab6d06cb9634, type: 3}
+  gameCellSpawnSettings: {fileID: 11400000, guid: 019f4aa2bdd75634ea5e0715e2984be6, type: 2}

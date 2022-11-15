@@ -1,9 +1,11 @@
-﻿using Features.GameCells.Scripts;
+﻿using Features.GameCells.Data;
+using Features.GameCells.Scripts;
 using Features.GameCells.Scripts.Cell;
 using Features.GameCells.Scripts.Observer;
 using Features.GameCells.Scripts.Panel;
 using Features.GameCells.Scripts.Spawn.Factory;
 using Features.GameCells.Scripts.Spawn.Spawner;
+using Features.Level.Data;
 using Features.Level.Scripts;
 using Features.Score.Scripts;
 using Features.Services.UI.Factory.BaseUI;
@@ -15,8 +17,12 @@ namespace Features.Bootstrapp.Scripts
 {
   public class GameSceneBootstrapper : MonoInstaller
   {
+    [SerializeField] private LevelSettings levelSettings;
     [SerializeField] private GamePanel gamePanel;
-    
+    [SerializeField] private GamePanelSettings gamePanelSettings;
+    [SerializeField] private GameCell gameCell;
+    [SerializeField] private GameCellSpawnSettings gameCellSpawnSettings;
+
     public override void Start()
     {
       base.Start();
@@ -52,7 +58,7 @@ namespace Features.Bootstrapp.Scripts
       Container.BindFactoryCustomInterface<BaseWindow, UIFactory, IUIFactory>().AsSingle();
 
     private void BindLevel() => 
-      Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle();
+      Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings);
 
     private void BindScoreFlow() => 
       Container.Bind<ScoreFlowObserver>().ToSelf().FromNew().AsSingle();
@@ -61,12 +67,12 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<GameCellsObserver>().ToSelf().FromNew().AsSingle();
 
     private void BindGameCellsSpawner() => 
-      Container.Bind<GameCellSpawner>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameCellSpawner>().ToSelf().FromNew().AsSingle().WithArguments(gameCell, gameCellSpawnSettings);
 
     private void BindGameCellsFactory() => 
       Container.BindFactoryCustomInterface<GameCell, GameCellFactory, IGameCellFactory>().AsSingle();
 
     private void BindGamePanel() => 
-      Container.Bind<GamePanel>().ToSelf().FromComponentInNewPrefab(gamePanel).AsSingle();
+      Container.Bind<GamePanel>().ToSelf().FromComponentInNewPrefab(gamePanel).AsSingle().WithArguments(gamePanelSettings);
   }
 }

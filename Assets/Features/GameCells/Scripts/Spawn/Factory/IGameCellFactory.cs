@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Features.GameCells.Scripts.Spawn.Factory
 {
-  public interface IGameCellFactory : IFactory<Transform, GameCell, GameCell>
+  public interface IGameCellFactory : IFactory<Transform, int, GameCell, GameCell>
   {
     
   }
