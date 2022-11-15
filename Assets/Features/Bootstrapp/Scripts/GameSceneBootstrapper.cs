@@ -13,6 +13,8 @@ namespace Features.Bootstrapp.Scripts
     {
       base.Start();
       ResolveUIFactory();
+      LevelFlow levelFlow = ResolveLevelFlow();
+      StartLevel(levelFlow);
     }
 
     public override void InstallBindings()
@@ -23,8 +25,17 @@ namespace Features.Bootstrapp.Scripts
       BindGameCellsObserver();
     }
 
+    private LevelFlow ResolveLevelFlow() => 
+      Container.Resolve<LevelFlow>();
+
     private void ResolveUIFactory() => 
       Container.Resolve<IUIFactory>();
+
+    private void StartLevel(LevelFlow levelFlow)
+    {
+      levelFlow.PrepareLevel();
+      levelFlow.Start();
+    }
 
     private void BindUIFactory() =>
       Container.BindFactoryCustomInterface<BaseWindow, UIFactory, IUIFactory>().AsSingle();
