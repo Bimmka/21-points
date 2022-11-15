@@ -1,4 +1,5 @@
 ﻿using Features.GameCells.Scripts;
+using Features.GameCells.Scripts.Observer;
 using Features.Score.Scripts;
 using Features.Services.UI.Factory;
 using Features.Services.UI.Windows;
