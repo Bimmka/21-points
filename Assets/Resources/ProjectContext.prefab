@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObserverPrefab: {fileID: 6721244201168944164, guid: e4ccd6dc2add8964fad30bcec121857e, type: 3}
+  loadingCurtain: {fileID: 2197872955370472661, guid: 5e0050b3d46137d4aab541462ad79303, type: 3}
