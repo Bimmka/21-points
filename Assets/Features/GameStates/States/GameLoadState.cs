@@ -1,3 +1,4 @@
+using Features.GameConstants;
 using Features.GameStates.States.Interfaces;
 using Features.SceneLoading.Scripts;
 using Zenject;
@@ -18,19 +19,12 @@ namespace Features.GameStates.States
       gameStateMachine.Register(this);
     }
 
-    public void Enter()
-    {
-    
-    }
+    public void Enter() => 
+      sceneLoader.Load(Constants.GameSceneName, onLoaded: OnLoad);
 
-    public void Exit()
-    {
-      
-    }
+    public void Exit() { }
 
-    private void OnLoad()
-    {
-    }
-    
+    private void OnLoad() => 
+      gameStateMachine.Enter<GameLoopState>();
   }
 }

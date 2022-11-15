@@ -12,6 +12,6 @@ namespace Features.GameStates
     }
 
     public void StartGame() => 
-      StateMachine.Enter<MainMenuState>();
+      StateMachine.Enter<GameLoadState>();
   }
 }
