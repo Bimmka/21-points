@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057434221298850808}
   - component: {fileID: 7148035812920982999}
+  - component: {fileID: 8154027828785031869}
   m_Layer: 0
   m_Name: Game Cell
   m_TagString: Untagged
@@ -50,7 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6deb375982249ed9eb91797ebba6fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  view: {fileID: 8154027828785031869}
   button: {fileID: 5226078882883263185}
+--- !u!114 &8154027828785031869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627914445257436812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df57a24631c841ef8ab0dcbb6e0d1230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valueText: {fileID: 4379503893034125136}
+  viewImage: {fileID: 2147959344064494064}
+  clickedColor: {r: 1, g: 0, b: 0, a: 1}
+  releasedColor: {r: 0, g: 1, b: 0.12409544, a: 1}
+  animationTime: 1
 --- !u!1 &5097530015185162366
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.1254902, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -266,8 +285,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 35.73
+  m_fontSizeBase: 35.73
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0

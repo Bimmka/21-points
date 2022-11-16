@@ -4,13 +4,17 @@ using UnityEngine.UI;
 
 namespace Features.GameCells.Scripts.Cell
 {
+  [RequireComponent(typeof(GameCellView))]
   public class GameCell : MonoBehaviour
   {
+    [SerializeField] private GameCellView view;
     [SerializeField] private Button button;
 
     private bool isOn;
     public string ID { get; private set; }
     public int Value { get; private set; }
+
+    public bool IsAnimating => view.IsAnimating;
     
     public readonly ReactiveCommand<CellClickContainer> Clicked = new ReactiveCommand<CellClickContainer>();
 
@@ -33,21 +37,31 @@ namespace Features.GameCells.Scripts.Cell
     public void SetValue(int value)
     {
       Value = value;
+      view.DisplayValue(value);
     }
 
-    public void Lock()
+    public void Disable()
     {
-      
+      isOn = false;
+      view.Disable();
     }
 
-    public void Unlock()
+    public void Enable()
     {
-      
+      view.DisplayHidenClickedView(isOn);
+      view.Enable();
     }
+
+    public void Lock() => 
+      button.enabled = false;
+
+    public void Unlock() => 
+      button.enabled = true;
 
     private void Click()
     {
       isOn = !isOn;
+      view.DisplayClickedView(isOn);
       Clicked.Execute(ClickContainer(isOn));
     }
 

@@ -8,6 +8,11 @@ using Features.GameCells.Scripts.Spawn.Spawner;
 using Features.Level.Data;
 using Features.Level.Scripts;
 using Features.Score.Scripts;
+using Features.Score.Scripts.Calculator;
+using Features.Score.Scripts.Count;
+using Features.Score.Scripts.Data;
+using Features.Score.Scripts.Observer;
+using Features.Services.Cleanup;
 using Features.Services.UI.Factory.BaseUI;
 using Features.UI.Windows.Base;
 using UnityEngine;
@@ -22,6 +27,7 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private GamePanelSettings gamePanelSettings;
     [SerializeField] private GameCell gameCell;
     [SerializeField] private GameCellSpawnSettings gameCellSpawnSettings;
+    [SerializeField] private ScoreSettings scoreSettings;
 
     public override void Start()
     {
@@ -40,6 +46,10 @@ namespace Features.Bootstrapp.Scripts
       BindGameCellsSpawner();
       BindGameCellsFactory();
       BindGamePanel();
+      BindGameScore();
+      BindCellScore();
+      BindScoreCalculator();
+      BindCleanupService();
     }
 
     private LevelFlow ResolveLevelFlow() => 
@@ -61,7 +71,7 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<LevelFlow>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings);
 
     private void BindScoreFlow() => 
-      Container.Bind<ScoreFlowObserver>().ToSelf().FromNew().AsSingle();
+      Container.Bind<ScoreFlowObserver>().ToSelf().FromNew().AsSingle().WithArguments(scoreSettings);
 
     private void BindGameCellsObserver() => 
       Container.Bind<GameCellsObserver>().ToSelf().FromNew().AsSingle();
@@ -74,5 +84,17 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindGamePanel() => 
       Container.Bind<GamePanel>().ToSelf().FromComponentInNewPrefab(gamePanel).AsSingle().WithArguments(gamePanelSettings);
+
+    private void BindGameScore() => 
+      Container.Bind<GameScore>().ToSelf().FromNew().AsSingle();
+
+    private void BindCellScore() => 
+      Container.Bind<PickedCellScoreCounter>().ToSelf().FromNew().AsSingle();
+
+    private void BindScoreCalculator() => 
+      Container.Bind<CellScoreCalculator>().ToSelf().FromNew().AsSingle();
+
+    private void BindCleanupService() => 
+      Container.Bind<ICleanupService>().To<CleanupService>().FromNew().AsSingle();
   }
 }

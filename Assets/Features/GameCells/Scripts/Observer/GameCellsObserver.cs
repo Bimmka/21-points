@@ -1,25 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Features.GameCells.Scripts.Cell;
 using Features.GameCells.Scripts.Spawn.Spawner;
+using Features.Services.Cleanup;
+using Features.Services.Coroutine;
 using UniRx;
 
 namespace Features.GameCells.Scripts.Observer
 {
-  public class GameCellsObserver
+  public class GameCellsObserver : ICleanup
   {
     private readonly GameCellSpawner spawner;
+    private readonly ICoroutineRunner coroutineRunner;
 
     private readonly Dictionary<string, GameCell> cells;
     private readonly CompositeDisposable disposable;
 
     public readonly ReactiveCollection<GameCell> PickedCells;
 
-    public GameCellsObserver(GameCellSpawner spawner)
+    public GameCellsObserver(GameCellSpawner spawner, ICleanupService cleanupService, ICoroutineRunner coroutineRunner)
     {
       this.spawner = spawner;
+      this.coroutineRunner = coroutineRunner;
       cells = new Dictionary<string, GameCell>(16);
       PickedCells = new ReactiveCollection<GameCell>(new List<GameCell>(5));
       disposable = new CompositeDisposable();
+      
+      cleanupService.Register(this);
     }
 
     public void Cleanup()
@@ -54,20 +62,17 @@ namespace Features.GameCells.Scripts.Observer
       }
     }
 
-    public void DisableClickedCells()
-    {
-      
-    }
+    public void DisableClickedCells(Action callback = null) => 
+      coroutineRunner.StartCoroutine(DisableCells(callback));
 
-    public void RespawnClickedCells()
-    {
-      
-    }
+    public void RespawnClickedCells(Action callback = null) => 
+      coroutineRunner.StartCoroutine(EnableCells(callback));
 
-    public void RefreshAllCellsValue()
-    {
-      
-    }
+    public void RefreshAllCellsValue() => 
+      spawner.RefreshValue(cells.Values);
+
+    public void ResetClickedCells() => 
+      PickedCells.Clear();
 
     private void OnClickCell(CellClickContainer clickContainer)
     {
@@ -75,6 +80,48 @@ namespace Features.GameCells.Scripts.Observer
         PickedCells.Add(clickContainer.Cell);
       else
         PickedCells.Remove(clickContainer.Cell);
+    }
+
+    private IEnumerator DisableCells(Action callback = null)
+    {
+      for (int i = 0; i < PickedCells.Count; i++)
+      {
+        PickedCells[i].Disable();
+      }
+      
+      while (IsHaveAnimatedPickedCells())
+      {
+        yield return null;
+      }
+      
+      callback?.Invoke();
+    }
+    
+    private IEnumerator EnableCells(Action callback = null)
+    {
+      spawner.RefreshValue(PickedCells);
+      
+      for (int i = 0; i < PickedCells.Count; i++)
+      {
+        PickedCells[i].Enable();
+      }
+
+      while (IsHaveAnimatedPickedCells())
+      {
+        yield return null;
+      }
+      callback?.Invoke();
+    }
+
+    private bool IsHaveAnimatedPickedCells()
+    {
+      for (int i = 0; i < PickedCells.Count; i++)
+      {
+        if (PickedCells[i].IsAnimating == true)
+          return true;
+      }
+
+      return false;
     }
   }
 }
