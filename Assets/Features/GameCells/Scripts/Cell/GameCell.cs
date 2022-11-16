@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +7,12 @@ namespace Features.GameCells.Scripts.Cell
   public class GameCell : MonoBehaviour
   {
     [SerializeField] private Button button;
-    
+
+    private bool isOn;
     public string ID { get; private set; }
     public int Value { get; private set; }
+    
+    public readonly ReactiveCommand<CellClickContainer> Clicked = new ReactiveCommand<CellClickContainer>();
 
     private void Awake()
     {
@@ -32,9 +35,23 @@ namespace Features.GameCells.Scripts.Cell
       Value = value;
     }
 
-    private void Click()
+    public void Lock()
     {
       
     }
+
+    public void Unlock()
+    {
+      
+    }
+
+    private void Click()
+    {
+      isOn = !isOn;
+      Clicked.Execute(ClickContainer(isOn));
+    }
+
+    private CellClickContainer ClickContainer(bool isOn) => 
+      new CellClickContainer(this, isOn);
   }
 }

@@ -3,7 +3,6 @@ using Features.GameCells.Scripts.Cell;
 using Features.Services.Assets;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Features.GameCells.Scripts.Spawn.Factory
 {
