@@ -83,3 +83,4 @@ MonoBehaviour:
   gameCell: {fileID: 7148035812920982999, guid: a0a25463414e55a469b6ab6d06cb9634, type: 3}
   gameCellSpawnSettings: {fileID: 11400000, guid: 019f4aa2bdd75634ea5e0715e2984be6, type: 2}
   scoreSettings: {fileID: 11400000, guid: d5288639fc7afac479584ca1f1bbf769, type: 2}
+  levelObserver: {fileID: 8824415933064007557, guid: e9414edf22352594ebc85e28047ab03c, type: 3}

@@ -53,21 +53,23 @@ namespace Features.Score.Scripts.Observer
       ResetPickedCellScore();
     }
 
-    public void ResetPickedCellScore() => 
+    public void ApplyChangeScore()
+    {
+      if (pickedCellScoreCounter.Score.Value > settings.MinBoundPoints)
+        gameScore.DecreaseScore(calculator.DecreasedScore(pickedCellScoreCounter.Score.Value));
+      else if (pickedCellScoreCounter.Score.Value == settings.MinBoundPoints)
+        gameScore.AddScore(pickedCellScoreCounter.Score.Value);
+
+      ResetPickedCellScore();
+    }
+
+    private void ResetPickedCellScore() => 
       pickedCellScoreCounter.ResetScore();
 
     private void OnChangeCellScore(int value)
     {
-      if (value > settings.MinBoundPoints)
-      {
-        gameScore.DecreaseScore(calculator.DecreasedScore(value));
-        NotifyAboutResetCellsScore();
-      }
-      else if (value == settings.MinBoundPoints)
-      {
-        gameScore.AddScore(value);
-        NotifyAboutResetCellsScore();
-      }
+      if (value >= settings.MinBoundPoints) 
+        NotifyAboutReachBoundsScore();
     }
 
     private void OnChangeGameScore(int value)
@@ -82,7 +84,7 @@ namespace Features.Score.Scripts.Observer
     private void OnRemovePickedCell(CollectionRemoveEvent<GameCell> cell) => 
       pickedCellScoreCounter.DecreaseScore(cell.Value.Value);
 
-    private void NotifyAboutResetCellsScore() => 
+    private void NotifyAboutReachBoundsScore() => 
       ResetedCellsScore.Execute();
   }
 }

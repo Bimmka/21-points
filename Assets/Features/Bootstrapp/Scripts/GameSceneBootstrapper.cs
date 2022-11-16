@@ -28,13 +28,13 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private GameCell gameCell;
     [SerializeField] private GameCellSpawnSettings gameCellSpawnSettings;
     [SerializeField] private ScoreSettings scoreSettings;
+    [SerializeField] private LevelObserver levelObserver;
 
     public override void Start()
     {
       base.Start();
       ResolveUIFactory();
-      LevelFlow levelFlow = ResolveLevelFlow();
-      StartLevel(levelFlow);
+      StartLevel(ResolveLevelFlow());
     }
 
     public override void InstallBindings()
@@ -50,19 +50,20 @@ namespace Features.Bootstrapp.Scripts
       BindCellScore();
       BindScoreCalculator();
       BindCleanupService();
+      BindLevelObserver();
     }
 
-    private LevelFlow ResolveLevelFlow() => 
-      Container.Resolve<LevelFlow>();
+    private LevelObserver ResolveLevelFlow() => 
+      Container.Resolve<LevelObserver>();
 
     private void ResolveUIFactory() => 
       Container.Resolve<IUIFactory>();
 
-    private void StartLevel(LevelFlow levelFlow)
-    {
-      levelFlow.PrepareLevel();
-      levelFlow.Start();
-    }
+    private void StartLevel(LevelObserver levelObserver) => 
+      levelObserver.StartGame();
+
+    private void BindLevelObserver() => 
+      Container.Bind<LevelObserver>().FromComponentInNewPrefab(levelObserver).AsSingle();
 
     private void BindUIFactory() =>
       Container.BindFactoryCustomInterface<BaseWindow, UIFactory, IUIFactory>().AsSingle();

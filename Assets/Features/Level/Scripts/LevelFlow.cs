@@ -53,14 +53,15 @@ namespace Features.Level.Scripts
 
     public void Restart()
     {
+      scoreFlowObserver.ResetAllScore();
       gameCellsObserver.RefreshAllCellsValue();
       gameCellsObserver.UnlockAllCells();
     }
 
-    public void FinishGame()
+    private void FinishGame()
     {
       gameCellsObserver.LockAllCells();
-      scoreFlowObserver.ResetAllScore();
+      windowsService.Open(WindowId.GameFinish);
     }
 
     private void ResetPickedCells()
@@ -76,8 +77,7 @@ namespace Features.Level.Scripts
     {
       gameCellsObserver.UnlockAllCells();
       gameCellsObserver.ResetClickedCells();
-      scoreFlowObserver.ResetPickedCellScore();
+      scoreFlowObserver.ApplyChangeScore();
     }
-    
   }
 }

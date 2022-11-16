@@ -15,3 +15,5 @@ MonoBehaviour:
   InstantiateData:
   - ID: 0
     Window: {fileID: 5590189310770717701, guid: 417dd8759c7a7de4982a0a11c4e847a7, type: 3}
+  - ID: 1
+    Window: {fileID: 6384214075562447993, guid: b89bd0f15faef9346ae512f0bc98210a, type: 3}
